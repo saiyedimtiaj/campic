@@ -6,21 +6,27 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import ReactStars from 'react-rating-star-with-type';
 import { Controller, FieldValues, useForm } from "react-hook-form";
-import { useCreateProductMutation } from '@/redux/api/baseApi';
+import { FaRegEdit } from "react-icons/fa";
+import { useGetSingleProductQuery, useUpdateProductMutation } from '@/redux/api/baseApi';
 
-const AddProductModel = () => {
-    const { register, handleSubmit, control, formState: { errors } } = useForm();
+const UpdateModal = ({ id }: { id: string }) => {
+    const { data } = useGetSingleProductQuery(id);
+    const [updateProduct] = useUpdateProductMutation()
+    const { register, handleSubmit, control, formState: { errors } } = useForm({
+        defaultValues: data?.data
+    });
     const [open, setOpen] = useState(false);
-    const [createProduct] = useCreateProductMutation()
 
     const onSubmit = (data: FieldValues) => {
+        const { name, description, rating, category, image } = data
         const productInfo = {
-            ...data,
-            stock: true,
+            name, description, rating, category, image,
             price: parseInt(data.price),
             quantity: parseInt(data.quantity)
         }
-        createProduct(productInfo);
+
+        updateProduct({ id, data: productInfo })
+
         setOpen(false);
     };
 
@@ -28,12 +34,14 @@ const AddProductModel = () => {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button variant="outline" onClick={() => setOpen(true)}>Add Product</Button>
+                <button className="px-1 py-1 bg-green-600 rounded text-white">
+                    <FaRegEdit size={20} />
+                </button>
             </DialogTrigger>
 
             <DialogContent className="sm:max-w-[425px]" aria-describedby="dialog-description">
                 <DialogHeader>
-                    <DialogTitle>Add Product</DialogTitle>
+                    <DialogTitle>Update Product</DialogTitle>
                     <DialogDescription></DialogDescription>
                 </DialogHeader>
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
@@ -92,15 +100,12 @@ const AddProductModel = () => {
                         {errors.description && <span className='text-red-500'>This field is required</span>}
                     </div>
                     <div className="flex justify-end">
-                        <Button type="submit">Add Product</Button>
+                        <Button type="submit">Update Product</Button>
                     </div>
                 </form>
-                <div id="dialog-description" className="hidden">
-                    This is the add product dialog where you can add new products to the inventory.
-                </div>
             </DialogContent>
         </Dialog>
     );
 };
 
-export default AddProductModel;
+export default UpdateModal;
