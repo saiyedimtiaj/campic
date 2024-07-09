@@ -36,12 +36,12 @@ const Footer = () => {
                     <h4 className="text-xl font-bold">Contact</h4>
                     <ul className="mt-4 text-gray-500 space-y-1 font-medium">
                         <li className="cursor-pointer">+880 1615-718970</li>
-                        <li className="cursor-pointer">saiyedimtiaj@gmail.com</li>
+                        <li className="cursor-pointer">campicshop209@gmail.com</li>
                     </ul>
                 </div>
             </div>
             <div className="py-4 text-center">
-                <p>© {new Date().getFullYear()} BooK Inc. All rights reserved.</p>
+                <p>© {new Date().getFullYear()} Campic Inc. All rights reserved.</p>
             </div>
         </div>
     );
