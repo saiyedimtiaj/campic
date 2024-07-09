@@ -3,8 +3,8 @@ import logo from "../../assets/logo.png"
 
 const Footer = () => {
     return (
-        <div className="mt-5">
-            <div className="grid grid-cols-1 container border-b border-[#E2E8F0] mx-auto md:grid-cols-2 lg:grid-cols-4 gap-5 lg:justify-center py-10 px-3">
+        <div className="pt-20">
+            <div className="grid grid-cols-1 bg-gray-200 container border-b border-[#E2E8F0] mx-auto md:grid-cols-2 lg:grid-cols-4 gap-5 lg:justify-center py-10 px-3">
                 <div>
                     <div className="flex items-end cursor-pointer">
                         <img className="h-10" src={logo} alt="" />
