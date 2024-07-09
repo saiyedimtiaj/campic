@@ -7,9 +7,11 @@ import { Textarea } from "../ui/textarea";
 import ReactStars from 'react-rating-star-with-type';
 import { Controller, FieldValues, useForm } from "react-hook-form";
 import { useCreateProductMutation } from '@/redux/api/baseApi';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { toast } from 'sonner';
 
 const AddProductModel = () => {
-    const { register, handleSubmit, control, formState: { errors } } = useForm();
+    const { register, handleSubmit, control, reset, formState: { errors } } = useForm();
     const [open, setOpen] = useState(false);
     const [createProduct] = useCreateProductMutation()
 
@@ -22,13 +24,14 @@ const AddProductModel = () => {
         }
         createProduct(productInfo);
         setOpen(false);
+        reset()
+        toast.success("Add product Susscessfully")
     };
-
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                <Button variant="outline" onClick={() => setOpen(true)}>Add Product</Button>
+            <DialogTrigger className='mt-10' asChild>
+                <Button onClick={() => setOpen(true)}>Add Product</Button>
             </DialogTrigger>
 
             <DialogContent className="sm:max-w-[425px]" aria-describedby="dialog-description">
@@ -45,7 +48,26 @@ const AddProductModel = () => {
                         </div>
                         <div className="space-y-1 w-full">
                             <Label>Category</Label>
-                            <Input {...register("category", { required: true })} id="category" placeholder="Category" />
+                            <Controller
+                                name="category"
+                                control={control}
+                                defaultValue=""
+                                render={({ field }) => (
+                                    <Select onValueChange={field.onChange} value={field.value}>
+                                        <SelectTrigger className="w-full">
+                                            <SelectValue placeholder="Select a Category" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                <SelectItem value="Cooking">Cooking</SelectItem>
+                                                <SelectItem value="Camping">Camping</SelectItem>
+                                                <SelectItem value="Hiking">Hiking</SelectItem>
+                                                <SelectItem value="Cycling">Cycling</SelectItem>
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                )}
+                            />
                             {errors.category && <span className='text-red-500'>This field is required</span>}
                         </div>
                     </div>

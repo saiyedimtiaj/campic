@@ -1,10 +1,94 @@
 import FeatureBanner from "@/components/FeatureBanner/FeatureBanner";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useGetAllProductQuery } from "@/redux/api/baseApi";
+import { TProduct } from "@/types";
+import { Link } from "react-router-dom";
 
 
 const Products = () => {
+    const { data, isLoading } = useGetAllProductQuery(undefined)
+
+    if (isLoading) {
+        return <p>Loading....</p>
+    }
+
+
     return (
         <div>
             <FeatureBanner pageName="Product" />
+            <div className="container mx-auto px-4 flex gap-5 mt-20">
+                <div className="lg:max-w-[320px]">
+                    <Input type="text" id="search" placeholder="Search..." className="mb-4 border-2 w-[300px]" />
+                    <span className="text-2xl font-semibold mt-3 border-b-2 border-black pb-1">Category</span>
+                    <RadioGroup className="mt-5 mb-6" >
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Cooking" id="Cooking" />
+                            <Label htmlFor="Cooking">Cooking</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Camping" id="Camping" />
+                            <Label htmlFor="Camping">Camping</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Hiking" id="Hiking" />
+                            <Label htmlFor="Hiking">Hiking</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Cycling" id="Cycling" />
+                            <Label htmlFor="Cycling">Cycling</Label>
+                        </div>
+                    </RadioGroup>
+                    <span className="text-2xl font-semibold border-b-2 border-black pb-1">Price Range</span>
+                    <RadioGroup className="mt-5 mb-6" >
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="0-50" id="0-50" />
+                            <Label htmlFor="0-50">0-50</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="51-100" id="51-100" />
+                            <Label htmlFor="51-100">51-100</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="101-150" id="101-150" />
+                            <Label htmlFor="101-150">101-150</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="151-200" id="151-200" />
+                            <Label htmlFor="151-200">151-200</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="201-250" id="201-250" />
+                            <Label htmlFor="201-250">201-250</Label>
+                        </div>
+                    </RadioGroup>
+                    <span className="text-2xl font-semibold border-b-2 border-black pb-1">Sort By</span>
+                    <RadioGroup className="mt-5" >
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="High to Low" id="High to Low" />
+                            <Label htmlFor="High to Low">High to Low</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                            <RadioGroupItem value="Low to High" id="Low to High" />
+                            <Label htmlFor="Low to High">Low to High</Label>
+                        </div>
+                    </RadioGroup>
+                </div>
+                <div className="lg:w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6">
+                    {
+                        data?.data?.map((item: TProduct) => (
+                            <div key={item?._id} className="space-y-1">
+                                <img src={item?.image} alt="" />
+                                <h4 className="text-lg font-medium" >{item?.name}</h4>
+                                <h2 className="text-2xl font-semibold">${item.price}</h2>
+                                <Link to={`/product-details/${item?._id}`}><Button>View Details</Button></Link>
+                            </div>
+                        ))
+                    }
+                </div>
+            </div>
         </div>
     );
 };

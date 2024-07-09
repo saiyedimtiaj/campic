@@ -3,8 +3,8 @@ import logo from "../../assets/logo.png"
 
 const Footer = () => {
     return (
-        <div className="pt-20">
-            <div className="grid grid-cols-1 bg-gray-200 container border-b border-[#E2E8F0] mx-auto md:grid-cols-2 lg:grid-cols-4 gap-5 lg:justify-center py-10 px-3">
+        <div className="mt-20 bg-[#F2F2F2]">
+            <div className="grid grid-cols-1 container mx-auto md:grid-cols-2 lg:grid-cols-4 gap-5 lg:justify-center py-10 px-3">
                 <div>
                     <div className="flex items-end cursor-pointer">
                         <img className="h-10" src={logo} alt="" />
@@ -40,7 +40,7 @@ const Footer = () => {
                     </ul>
                 </div>
             </div>
-            <div className="py-4 text-center">
+            <div className="py-4 text-center border-t border-gray-300 max-w-[1200px] mx-auto">
                 <p>© {new Date().getFullYear()} Campic Inc. All rights reserved.</p>
             </div>
         </div>
