@@ -5,14 +5,26 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useGetAllProductQuery } from "@/redux/api/baseApi";
 import { TProduct } from "@/types";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 
 const Products = () => {
-    const { data, isLoading } = useGetAllProductQuery(undefined)
+    const [selectCategory, setSelectCategory] = useState("")
+    const [priceRange, setPriceRange] = useState("")
+    const [sortBy, setSortBy] = useState("")
+    const [searchTrams, setSearchTrams] = useState("")
+    const { data, isLoading } = useGetAllProductQuery({ price: priceRange, sortBy, category: selectCategory, searchTrams });
 
     if (isLoading) {
         return <p>Loading....</p>
+    }
+
+    const handleClearFilter = () => {
+        setSelectCategory("")
+        setSortBy("")
+        setPriceRange("")
+        setSearchTrams("")
     }
 
 
@@ -21,9 +33,9 @@ const Products = () => {
             <FeatureBanner pageName="Product" />
             <div className="container mx-auto px-4 flex gap-5 mt-20">
                 <div className="lg:max-w-[320px]">
-                    <Input type="text" id="search" placeholder="Search..." className="mb-4 border-2 w-[300px]" />
+                    <Input onChange={(e) => setSearchTrams(e.target.value)} type="text" id="search" placeholder="Search..." className="mb-4 border-2 w-[300px]" />
                     <span className="text-2xl font-semibold mt-3 border-b-2 border-black pb-1">Category</span>
-                    <RadioGroup className="mt-5 mb-6" >
+                    <RadioGroup onValueChange={setSelectCategory} value={selectCategory} className="mt-5 mb-6" >
                         <div className="flex items-center space-x-2">
                             <RadioGroupItem value="Cooking" id="Cooking" />
                             <Label htmlFor="Cooking">Cooking</Label>
@@ -42,7 +54,7 @@ const Products = () => {
                         </div>
                     </RadioGroup>
                     <span className="text-2xl font-semibold border-b-2 border-black pb-1">Price Range</span>
-                    <RadioGroup className="mt-5 mb-6" >
+                    <RadioGroup onValueChange={setPriceRange} value={priceRange} className="mt-5 mb-6" >
                         <div className="flex items-center space-x-2">
                             <RadioGroupItem value="0-50" id="0-50" />
                             <Label htmlFor="0-50">0-50</Label>
@@ -65,16 +77,17 @@ const Products = () => {
                         </div>
                     </RadioGroup>
                     <span className="text-2xl font-semibold border-b-2 border-black pb-1">Sort By</span>
-                    <RadioGroup className="mt-5" >
+                    <RadioGroup onValueChange={setSortBy} value={sortBy} className="mt-5" >
                         <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="High to Low" id="High to Low" />
+                            <RadioGroupItem value="desc" id="High to Low" />
                             <Label htmlFor="High to Low">High to Low</Label>
                         </div>
                         <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="Low to High" id="Low to High" />
+                            <RadioGroupItem value="asc" id="Low to High" />
                             <Label htmlFor="Low to High">Low to High</Label>
                         </div>
                     </RadioGroup>
+                    <Button onClick={handleClearFilter} variant="outline" className="mt-4 border-black border-2">Clear Filter</Button>
                 </div>
                 <div className="lg:w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6">
                     {

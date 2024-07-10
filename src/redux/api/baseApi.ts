@@ -16,10 +16,19 @@ export const baseApi = createApi({
       invalidatesTags: ["product"],
     }),
     getAllProduct: builder.query({
-      query: () => ({
-        url: "/product",
-        method: "GET",
-      }),
+      query: (options = {}) => {
+        const { category, sortBy, price, searchTrams } = options;
+        const queryParameters = new URLSearchParams({
+          ...(category && { category }),
+          ...(sortBy && { sortBy }),
+          ...(price && { price }),
+          ...(searchTrams && { searchTrams }),
+        });
+        return {
+          url: `/product?${queryParameters.toString()}`,
+          method: "GET",
+        };
+      },
       providesTags: ["product"],
     }),
     getSingleProduct: builder.query({
