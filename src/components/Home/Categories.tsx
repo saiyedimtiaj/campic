@@ -6,7 +6,7 @@ import cycling from "../../assets/cycling.jpeg"
 const Categories = () => {
     return (
         <div className="my-20 container mx-auto px-4">
-            <h1 className="text-5xl font-bold text-center mb-10">Featured Categories</h1>
+            <h1 className="text-3xl md:text-5xl font-bold text-center mb-10">Featured Categories</h1>
             <div className="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
                 <div className="relative w-full h-full rounded-md">
                     <img className="rounded-md h-full" src={cycling} alt="" />

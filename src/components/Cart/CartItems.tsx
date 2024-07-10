@@ -18,7 +18,6 @@ const CartItems = ({ item }: TCartItemProps) => {
         return <p>Loading....</p>;
     }
 
-
     if (error) {
         return <p>Something went wrong. Please try again later.</p>;
     }
@@ -27,7 +26,7 @@ const CartItems = ({ item }: TCartItemProps) => {
 
     const handleQuantityIncrement = () => {
         if (uniqueItem && item.quantity < uniqueItem.quantity) {
-            dispatch(updateQuantity({ _id: item._id, quantity: item.quantity + 1 }));
+            dispatch(updateQuantity({ _id: item._id, quantity: item.quantity + 1 }))
         }
     };
 
@@ -39,10 +38,6 @@ const CartItems = ({ item }: TCartItemProps) => {
 
     const handleDelete = () => {
         dispatch(deleteProduct({ _id: item._id }));
-    };
-
-    window.onbeforeunload = function () {
-        return 'Your upload will be lost if you leave the page, are you sure?';
     };
 
     return (

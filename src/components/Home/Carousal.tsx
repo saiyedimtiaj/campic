@@ -42,7 +42,7 @@ const carousalData = [
 function Carousal() {
     return (
         <div className="container mx-auto mb-12">
-            <h1 className="text-5xl font-bold text-center mb-10">What Our Customar Say</h1>
+            <h1 className="text-3xl md:text-5xl font-bold text-center mb-10">What Our Customar Say</h1>
             <div className="relative flex items-center">
                 <Carousel className="border-none w-full">
                     <CarouselContent className="w-full border-none">

@@ -31,7 +31,7 @@ const Products = () => {
     return (
         <div>
             <FeatureBanner pageName="Product" />
-            <div className="container mx-auto px-4 flex gap-5 mt-20">
+            <div className="container mx-auto px-4 flex flex-col md:flex-row gap-5 mt-20">
                 <div className="lg:max-w-[320px]">
                     <Input onChange={(e) => setSearchTrams(e.target.value)} type="text" id="search" placeholder="Search..." className="mb-4 border-2 w-[300px]" />
                     <span className="text-2xl font-semibold mt-3 border-b-2 border-black pb-1">Category</span>
@@ -89,14 +89,14 @@ const Products = () => {
                     </RadioGroup>
                     <Button onClick={handleClearFilter} variant="outline" className="mt-4 border-black border-2">Clear Filter</Button>
                 </div>
-                <div className="lg:w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6">
+                <div className="lg:w-full grid grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6">
                     {
                         data?.data?.map((item: TProduct) => (
                             <div key={item?._id} className="space-y-1">
                                 <img src={item?.image} alt="" />
-                                <h4 className="text-lg font-medium" >{item?.name}</h4>
-                                <h2 className="text-2xl font-semibold">${item.price}</h2>
-                                <Link to={`/product-details/${item?._id}`}><Button>View Details</Button></Link>
+                                <h4 className="md:text-lg text-xs font-medium" >{item?.name}</h4>
+                                <h2 className="md:text-2xl text-sm font-semibold">${item.price}</h2>
+                                <Link to={`/product-details/${item?._id}`}><Button className="text-[10px] px-2 md:px-4 h-[30px] md:h-[45px] md:text-base">View Details</Button></Link>
                             </div>
                         ))
                     }

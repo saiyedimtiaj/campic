@@ -4,7 +4,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "..
 const FaqSection = () => {
     return (
         <div className="container mx-auto mb-16">
-            <h1 className="text-5xl font-bold text-center mb-10">FAQ</h1>
+            <h1 className="text-3xl md:text-5xl font-bold text-center mb-10">FAQ</h1>
             <Accordion type="single" collapsible className="max-w-5xl mx-auto">
                 <AccordionItem value="item-1">
                     <AccordionTrigger>What is the return policy?</AccordionTrigger>

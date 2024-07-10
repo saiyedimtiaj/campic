@@ -4,7 +4,7 @@ import ReactStars from 'react-rating-star-with-type';
 import { Button } from "@/components/ui/button";
 import ImageMagnifier from "./ImageMagnifier";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { addToCart } from "@/redux/feature/cartSlice";
+import { TCartItem, addToCart, updateQuantity } from "@/redux/feature/cartSlice";
 import { toast } from "sonner";
 
 
@@ -17,12 +17,11 @@ const ProductDetails = () => {
     if (isLoading) {
         return <p>Loading....</p>
     }
+    const isItemExist = cart.find((item: TCartItem) => item._id === data?.data?._id);
 
     const handleAddToCart = () => {
-        const isItemExist = cart.find((item) => item._id === data?.data?._id);
-
         if (isItemExist) {
-            toast.error("Product is already in the cart", { duration: 2000 });
+            dispatch(updateQuantity({ _id: data.data._id, quantity: isItemExist?.quantity + 1 }))
         } else {
             const cartInfo = {
                 _id: data?.data?._id,
@@ -55,10 +54,14 @@ const ProductDetails = () => {
                     <p className="font-medium">Category : </p>
                     <p className="text-sm">#{data?.data?.category}</p>
                 </div>
+                <div className="flex gap-1 mt-2 items-center">
+                    <p className="font-medium">Stock : </p>
+                    <p className="text-sm">{data?.data?.quantity}</p>
+                </div>
                 <div className="mt-3">
                     <ReactStars size={23} value={data.data.rating} activeColor="#FFCE00" />
                 </div>
-                <Button onClick={handleAddToCart} className="mt-4">Add to Cart</Button>
+                <Button disabled={isItemExist?.quantity! >= data.data.quantity} onClick={handleAddToCart} className="mt-4">Add to Cart</Button>
                 <p className="text-gray-500 text-base mt-4">{data?.data?.description}</p>
             </div>
         </div>

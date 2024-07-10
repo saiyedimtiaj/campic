@@ -5,6 +5,8 @@ import Home from "@/pages/Home/Home";
 import ProductDetails from "@/pages/ProductDetails/ProductDetails";
 import ProductManagement from "@/pages/ProductManagement/ProductManagement";
 import Products from "@/pages/Products/Products";
+import Checkout from "@/pages/checkout/Checkout";
+import Success from "@/pages/success/Success";
 import { createBrowserRouter } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -35,6 +37,14 @@ const router = createBrowserRouter([
             {
                 path: "/cart",
                 element: <CartPage />
+            },
+            {
+                path: "/checkout",
+                element: <Checkout />
+            },
+            {
+                path: '/success',
+                element: <Success />
             }
         ]
     },

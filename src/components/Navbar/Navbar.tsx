@@ -3,6 +3,7 @@ import logo from "../../assets/logo.png"
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { BiMenuAltRight } from "react-icons/bi";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import { FaRegHeart } from "react-icons/fa6";
 
 const Navbar = () => {
     return (
@@ -18,6 +19,7 @@ const Navbar = () => {
                     <NavLink to="/product-management" className="text-lg font-medium">Product Management</NavLink>
                 </div>
                 <div className="flex items-center gap-3">
+                    <FaRegHeart className="cursor-pointer" size={25} />
                     <NavLink to="/cart"><MdOutlineShoppingBag size={27} /></NavLink>
                     <DropdownMenu>
                         <DropdownMenuTrigger className="lg:hidden"><BiMenuAltRight size={27} /></DropdownMenuTrigger>

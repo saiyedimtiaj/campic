@@ -12,7 +12,7 @@ const FeaturedProducts = () => {
     }
     return (
         <div className="my-20 container mx-auto px-4">
-            <h1 className="text-5xl font-bold text-center">Featured Products</h1>
+            <h1 className="text-3xl md:text-5xl font-bold text-center">Featured Products</h1>
             <div className="lg:w-full grid grid-cols-1 mt-10 md:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-6">
                 {
                     data?.data?.map((item: TProduct) => (
