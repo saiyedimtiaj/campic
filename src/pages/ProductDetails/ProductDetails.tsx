@@ -61,7 +61,7 @@ const ProductDetails = () => {
                 <div className="mt-3">
                     <ReactStars size={23} value={data.data.rating} activeColor="#FFCE00" />
                 </div>
-                <Button disabled={isItemExist?.quantity! >= data.data.quantity} onClick={handleAddToCart} className="mt-4">Add to Cart</Button>
+                <Button disabled={isItemExist?.quantity! >= data.data.quantity || data?.data?.quantity === 0} onClick={handleAddToCart} className="mt-4">Add to Cart</Button>
                 <p className="text-gray-500 text-base mt-4">{data?.data?.description}</p>
             </div>
         </div>

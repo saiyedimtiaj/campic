@@ -38,6 +38,7 @@ export const baseApi = createApi({
         url: `/product/${id}`,
         method: "GET",
       }),
+      providesTags: ["product"],
     }),
     deleteProduct: builder.mutation({
       query: (id) => ({
@@ -54,6 +55,16 @@ export const baseApi = createApi({
       }),
       invalidatesTags: ["product"],
     }),
+    updatePayment: builder.mutation({
+      query: (data) => {
+        return {
+          method: "PUT",
+          url: "/product/payment",
+          body: data,
+        };
+      },
+      invalidatesTags: ["product"],
+    }),
   }),
 });
 
@@ -63,4 +74,5 @@ export const {
   useDeleteProductMutation,
   useGetSingleProductQuery,
   useUpdateProductMutation,
+  useUpdatePaymentMutation,
 } = baseApi;

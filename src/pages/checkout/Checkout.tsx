@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useUpdatePaymentMutation } from "@/redux/api/baseApi";
 import { removeCart } from "@/redux/feature/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { Controller, FieldValues, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 const Checkout = () => {
@@ -13,12 +14,19 @@ const Checkout = () => {
     const total = cart.reduce((a, b) => a + (b.price * b.quantity), 0)
     const { register, handleSubmit, control, formState: { errors } } = useForm();
     const navigate = useNavigate();
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
+    const [updateQuantity] = useUpdatePaymentMutation();
 
-    const onSubmit = (data: FieldValues) => {
-        console.log(data);
-        dispatch(removeCart())
-        navigate('/success')
+    const cartIdanQuantity = cart.map(item => ({
+        _id: item._id,
+        quantity: item.quantity
+    }))
+
+    const onSubmit = () => {
+        updateQuantity(cartIdanQuantity).then(() => {
+            dispatch(removeCart())
+            navigate('/success')
+        })
     }
 
     return (
