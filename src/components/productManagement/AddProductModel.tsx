@@ -9,23 +9,39 @@ import { Controller, FieldValues, useForm } from "react-hook-form";
 import { useCreateProductMutation } from '@/redux/api/baseApi';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 import { toast } from 'sonner';
+import uploadImageToImgBB from '@/utils/uploadImageToImgBB';
 
 const AddProductModel = () => {
     const { register, handleSubmit, control, reset, formState: { errors } } = useForm();
     const [open, setOpen] = useState(false);
-    const [createProduct] = useCreateProductMutation()
+    const [createProduct] = useCreateProductMutation();
+    const [loading, setLoading] = useState(false);
 
-    const onSubmit = (data: FieldValues) => {
-        const productInfo = {
-            ...data,
-            stock: true,
-            price: parseInt(data.price),
-            quantity: parseInt(data.quantity)
+    const onSubmit = async (data: FieldValues) => {
+        setLoading(true);
+        try {
+            const imageFile = data.image[0];
+            const imageUploadResponse = await uploadImageToImgBB(imageFile);
+            const imageUrl = imageUploadResponse.data.url;
+
+            const productInfo = {
+                ...data,
+                stock: true,
+                price: parseInt(data.price),
+                quantity: parseInt(data.quantity),
+                image: imageUrl, // Use the uploaded image URL
+            };
+
+            createProduct(productInfo);
+            setLoading(false);
+            setOpen(false);
+            reset();
+            toast.success("Add product successfully");
+        } catch (error) {
+            console.error('Error uploading image or creating product:', error);
+            toast.error('Failed to add product');
+            setLoading(false);
         }
-        createProduct(productInfo);
-        setOpen(false);
-        reset()
-        toast.success("Add product Susscessfully")
     };
 
     return (
@@ -86,7 +102,7 @@ const AddProductModel = () => {
                     <div className="flex gap-3">
                         <div className="space-y-1 w-full">
                             <Label>Image</Label>
-                            <Input type="text" {...register("image", { required: true })} id="image" placeholder="Image" />
+                            <Input type="file" {...register("image", { required: true })} id="image" placeholder="Image" />
                             {errors.image && <span className='text-red-500'>This field is required</span>}
                         </div>
                         <div className="space-y-1 w-full">
@@ -114,7 +130,9 @@ const AddProductModel = () => {
                         {errors.description && <span className='text-red-500'>This field is required</span>}
                     </div>
                     <div className="flex justify-end">
-                        <Button type="submit">Add Product</Button>
+                        <Button type="submit" disabled={loading}>
+                            {loading ? 'Loading...' : 'Add Product'}
+                        </Button>
                     </div>
                 </form>
                 <div id="dialog-description" className="hidden">

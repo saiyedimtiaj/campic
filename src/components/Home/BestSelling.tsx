@@ -2,13 +2,14 @@ import { useGetAllProductQuery } from "@/redux/api/baseApi";
 import { TProduct } from "@/types";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
+import Spinner from "../spinner/Spinner";
 
 
 const BestSelling = () => {
     const { data, isLoading } = useGetAllProductQuery(undefined)
 
     if (isLoading) {
-        return <p>Loading....</p>
+        return <Spinner />
     }
     return (
         <div className="my-20 container mx-auto px-4">

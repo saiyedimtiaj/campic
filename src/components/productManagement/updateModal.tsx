@@ -9,6 +9,7 @@ import { Controller, FieldValues, useForm } from "react-hook-form";
 import { FaRegEdit } from "react-icons/fa";
 import { useGetSingleProductQuery, useUpdateProductMutation } from '@/redux/api/baseApi';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import Spinner from '../spinner/Spinner';
 
 const UpdateModal = ({ id }: { id: string }) => {
     const { data, isLoading } = useGetSingleProductQuery(id);
@@ -40,7 +41,7 @@ const UpdateModal = ({ id }: { id: string }) => {
     };
 
     if (isLoading) {
-        return <p>Loading....</p>;
+        return <Spinner />
     }
 
     return (
@@ -103,7 +104,7 @@ const UpdateModal = ({ id }: { id: string }) => {
                     <div className="flex gap-3">
                         <div className="space-y-1 w-full">
                             <Label>Image</Label>
-                            <Input type="text" {...register("image", { required: true })} id="image" placeholder="Image" />
+                            <Input type="text" readOnly {...register("image", { required: true })} id="image" placeholder="Image" />
                             {errors.image && <span className='text-red-500'>This field is required</span>}
                         </div>
                         <div className="space-y-1 w-full">

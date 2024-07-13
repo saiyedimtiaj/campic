@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/logo.png"
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { BiMenuAltRight } from "react-icons/bi";
@@ -10,7 +10,9 @@ const Navbar = () => {
         <div className="container mx-auto px-4">
             <div className="flex items-center justify-between gap-4 py-4">
                 <div>
-                    <img className="h-9 cursor-pointer" src={logo} alt="" />
+                    <Link to='/'>
+                        <img className="h-9 cursor-pointer" src={logo} alt="" />
+                    </Link>
                 </div>
                 <div className="hidden lg:flex items-center gap-5">
                     <NavLink to="/" className="text-lg font-medium">Home</NavLink>

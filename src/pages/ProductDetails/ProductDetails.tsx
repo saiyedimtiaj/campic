@@ -6,6 +6,7 @@ import ImageMagnifier from "./ImageMagnifier";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { TCartItem, addToCart, updateQuantity } from "@/redux/feature/cartSlice";
 import { toast } from "sonner";
+import Spinner from "@/components/spinner/Spinner";
 
 
 const ProductDetails = () => {
@@ -15,7 +16,7 @@ const ProductDetails = () => {
     const { cart } = useAppSelector((state) => state.cart)
 
     if (isLoading) {
-        return <p>Loading....</p>
+        return <Spinner />
     }
     const isItemExist = cart.find((item: TCartItem) => item._id === data?.data?._id);
 

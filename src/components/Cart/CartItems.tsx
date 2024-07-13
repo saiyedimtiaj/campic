@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import { useAppDispatch } from "@/redux/hooks";
 import { useGetAllProductQuery } from "@/redux/api/baseApi";
 import { TProduct } from "@/types";
+import Spinner from "../spinner/Spinner";
 
 type TCartItemProps = {
     item: TCartItem
@@ -15,7 +16,7 @@ const CartItems = ({ item }: TCartItemProps) => {
     const { data, isLoading, error } = useGetAllProductQuery(undefined);
 
     if (isLoading) {
-        return <p>Loading....</p>;
+        return <Spinner />
     }
 
     if (error) {

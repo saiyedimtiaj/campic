@@ -1,5 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
+//https://campic-server-zeta.vercel.app
+//http://localhost:5000
+
 export const baseApi = createApi({
   reducerPath: "baseApi",
   tagTypes: ["product"],

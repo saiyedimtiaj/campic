@@ -1,4 +1,5 @@
 import FeatureBanner from "@/components/FeatureBanner/FeatureBanner";
+import Spinner from "@/components/spinner/Spinner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,7 +18,7 @@ const Products = () => {
     const { data, isLoading } = useGetAllProductQuery({ price: priceRange, sortBy, category: selectCategory, searchTrams });
 
     if (isLoading) {
-        return <p>Loading....</p>
+        return <Spinner />
     }
 
     const handleClearFilter = () => {

@@ -6,6 +6,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useUpdatePaymentMutation } from "@/redux/api/baseApi";
 import { removeCart } from "@/redux/feature/cartSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
@@ -28,6 +29,12 @@ const Checkout = () => {
             navigate('/success')
         })
     }
+
+    useEffect(() => {
+        if (cart.length === 0) {
+            navigate('/');
+        }
+    }, [cart, navigate]);
 
     return (
         <div>

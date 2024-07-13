@@ -21,6 +21,7 @@ import { useGetAllProductQuery } from "@/redux/api/baseApi";
 import { TProduct } from "@/types";
 import DeleteModal from "./DeleteModal";
 import UpdateModal from "./updateModal";
+import Spinner from "../spinner/Spinner";
 
 export const columns: ColumnDef<TProduct>[] = [
     {
@@ -71,7 +72,7 @@ function ManagementTable() {
     });
 
     if (isLoading) {
-        return <p>Loading....</p>;
+        return <Spinner />
     }
 
     if (isError) {

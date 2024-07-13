@@ -1,14 +1,28 @@
 import CartItems from "@/components/Cart/CartItems";
 import FeatureBanner from "@/components/FeatureBanner/FeatureBanner";
+import Spinner from "@/components/spinner/Spinner";
+import { useGetAllProductQuery } from "@/redux/api/baseApi";
+import { TCartItem } from "@/redux/feature/cartSlice";
 import { useAppSelector } from "@/redux/hooks";
+import { TProduct } from "@/types";
 import { Link } from "react-router-dom";
 
-
 const CartPage = () => {
+    const cartItems = useAppSelector((state) => state.cart.cart) as TCartItem[];
+    const { data, isLoading } = useGetAllProductQuery(undefined);
 
-    const cartItems = useAppSelector((state => state.cart.cart));
+    if (isLoading) {
+        return <Spinner />
+    }
 
-    const subTottal = cartItems.reduce((a, b) => a + (b.price * b.quantity), 0)
+    const products = Array.isArray(data) ? data as TProduct[] : [];
+
+    const subTotal = cartItems.reduce((a, b) => a + (b.price * b.quantity), 0);
+
+    const isQuantityExceeded = cartItems.some(cartItem => {
+        const product = products.find(p => p._id === cartItem._id);
+        return product ? cartItem.quantity > product.quantity : false;
+    });
 
     return (
         <div>
@@ -44,7 +58,7 @@ const CartPage = () => {
                                             Subtotal
                                         </div>
                                         <div className="text-md md:text-lg font-medium text-black">
-                                            ${subTottal.toFixed(2)}
+                                            ${subTotal.toFixed(2)}
                                         </div>
                                     </div>
                                     <div className="text-sm md:text-md pb-4 border-t mt-3">
@@ -56,7 +70,10 @@ const CartPage = () => {
 
                                 {/* BUTTON START */}
                                 <Link to='/checkout'>
-                                    <button className="w-full py-4 rounded-full bg-black text-white text-lg font-medium transition-transform active:scale-95 mb-3 hover:opacity-75 flex items-center gap-2 justify-center">
+                                    <button
+                                        className={`w-full py-4 rounded-full text-lg font-medium transition-transform active:scale-95 mb-3 flex items-center gap-2 justify-center ${isQuantityExceeded ? 'bg-gray-400 text-gray-700 cursor-not-allowed' : 'bg-black text-white hover:opacity-75'}`}
+                                        disabled={isQuantityExceeded}
+                                    >
                                         Place Order
                                     </button>
                                 </Link>
